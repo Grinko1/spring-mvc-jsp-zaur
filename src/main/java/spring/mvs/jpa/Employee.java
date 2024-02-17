@@ -1,6 +1,7 @@
 package spring.mvs.jpa;
 
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
+import spring.mvs.jpa.validation.CheckEmail;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -8,12 +9,21 @@ import java.util.Map;
 public class Employee {
     @Size(min=2, max=20,message="Name must be between 2 and 20 characters")
     private String name;
+    @NotEmpty(message = "Surname is required field")
     private String surname;
+    @Min(value = 0, message = "Salary can't be less then 0")
+    @Max(value = 3000, message = "The greatest salary in our company is 3000")
     private int salary;
+
     private String department;
     private Map<String,String> departments;
     private String carBrand;
     private String[] languages;
+
+    @Pattern(regexp = "\\d{3}-\\d{2}-\\d{2}", message = "please use pattern XXX-XX-XX")
+    private String phone;
+    @CheckEmail(value = "abc.com", message = "email must ends with abc.com")
+    private String email;
 
     public Employee() {
     }
@@ -84,6 +94,22 @@ public class Employee {
 
     public void setLanguages(String[] languages) {
         this.languages = languages;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Override
